@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Variables de entorno
+.env
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+
+# VS Code
+.vscode/
+
+# Base de datos
+*.db
+*.sqlite
