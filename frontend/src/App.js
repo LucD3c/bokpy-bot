@@ -7,8 +7,9 @@ const API = 'http://localhost:8000';
 function App() {
   const [apiStatus, setApiStatus] = useState('Conectando...');
   const [balance, setBalance] = useState(null);
+  const [signal, setSignal] = useState(null);
 
-  useEffect(() => {
+  const fetchData = () => {
     axios.get(`${API}/health`)
       .then(() => setApiStatus('✅ API Conectada'))
       .catch(() => setApiStatus('❌ API Desconectada'));
@@ -16,7 +17,23 @@ function App() {
     axios.get(`${API}/balance`)
       .then(res => setBalance(res.data.balance))
       .catch(() => setBalance(null));
+
+    axios.get(`${API}/signal`)
+      .then(res => setSignal(res.data))
+      .catch(() => setSignal(null));
+  };
+
+  useEffect(() => {
+    fetchData();
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
   }, []);
+
+  const signalColor = {
+    'BUY': '#3fb950',
+    'SELL': '#f85149',
+    'HOLD': '#e3b341'
+  };
 
   return (
     <div className="app">
@@ -39,6 +56,33 @@ function App() {
             <p className="amount stopped">⏸ Detenido</p>
           </div>
         </div>
+
+        {signal && (
+          <div className="signal-box">
+            <h2>Señal Actual — {signal.symbol}</h2>
+            <div className="signal-grid">
+              <div className="signal-item">
+                <span>Precio</span>
+                <strong>${signal.price.toLocaleString()}</strong>
+              </div>
+              <div className="signal-item">
+                <span>EMA 9</span>
+                <strong>${signal.ema9.toLocaleString()}</strong>
+              </div>
+              <div className="signal-item">
+                <span>EMA 21</span>
+                <strong>${signal.ema21.toLocaleString()}</strong>
+              </div>
+              <div className="signal-item">
+                <span>Señal</span>
+                <strong style={{color: signalColor[signal.signal]}}>
+                  {signal.signal === 'BUY' ? '🟢 COMPRAR' :
+                   signal.signal === 'SELL' ? '🔴 VENDER' : '🟡 MANTENER'}
+                </strong>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

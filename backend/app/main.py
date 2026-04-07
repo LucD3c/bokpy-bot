@@ -47,3 +47,9 @@ def get_balance():
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+from app.strategies.strategy import get_current_signal
+
+@app.get("/signal")
+def get_signal(symbol: str = "BTC/USDT", timeframe: str = "1h"):
+    return get_current_signal(symbol, timeframe)

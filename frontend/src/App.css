@@ -26,13 +26,9 @@ body {
   border-radius: 20px;
 }
 
-.main { padding: 2rem; }
+.main { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
 
-.cards {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+.cards { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 .card {
   background: #161b22;
@@ -49,10 +45,29 @@ body {
   text-transform: uppercase;
 }
 
-.amount {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #58a6ff;
+.amount { font-size: 1.8rem; font-weight: bold; color: #58a6ff; }
+.stopped { color: #f85149; }
+
+.signal-box {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.5rem;
 }
 
-.stopped { color: #f85149; }
+.signal-box h2 { color: #58a6ff; margin-bottom: 1rem; font-size: 1.1rem; }
+
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.signal-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.signal-item span { font-size: 0.8rem; color: #8b949e; text-transform: uppercase; }
+.signal-item strong { font-size: 1.2rem; }
