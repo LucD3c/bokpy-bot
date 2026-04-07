@@ -28,12 +28,31 @@ body {
 
 .main { padding: 2rem; }
 
+.cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .card {
   background: #161b22;
   border: 1px solid #30363d;
   border-radius: 8px;
   padding: 1.5rem;
-  max-width: 400px;
+  min-width: 200px;
 }
 
-.card h2 { margin-bottom: 0.5rem; color: #58a6ff; }
+.card h3 {
+  font-size: 0.85rem;
+  color: #8b949e;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.amount {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #58a6ff;
+}
+
+.stopped { color: #f85149; }

@@ -6,11 +6,16 @@ const API = 'http://localhost:8000';
 
 function App() {
   const [apiStatus, setApiStatus] = useState('Conectando...');
+  const [balance, setBalance] = useState(null);
 
   useEffect(() => {
     axios.get(`${API}/health`)
       .then(() => setApiStatus('✅ API Conectada'))
       .catch(() => setApiStatus('❌ API Desconectada'));
+
+    axios.get(`${API}/balance`)
+      .then(res => setBalance(res.data.balance))
+      .catch(() => setBalance(null));
   }, []);
 
   return (
@@ -20,9 +25,19 @@ function App() {
         <span className="status">{apiStatus}</span>
       </header>
       <main className="main">
-        <div className="card">
-          <h2>Dashboard</h2>
-          <p>Sistema de trading automático en construcción...</p>
+        <div className="cards">
+          <div className="card">
+            <h3>Balance USDT</h3>
+            <p className="amount">{balance ? `$${balance.USDT}` : '...'}</p>
+          </div>
+          <div className="card">
+            <h3>Balance BTC</h3>
+            <p className="amount">{balance ? `₿${balance.BTC}` : '...'}</p>
+          </div>
+          <div className="card">
+            <h3>Estado del Bot</h3>
+            <p className="amount stopped">⏸ Detenido</p>
+          </div>
         </div>
       </main>
     </div>

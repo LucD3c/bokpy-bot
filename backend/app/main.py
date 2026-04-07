@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from app.strategies.exchange import test_connection, get_exchange
 
 load_dotenv()
 
@@ -25,3 +26,24 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "healthy"}
+
+@app.get("/exchange/test")
+def exchange_test():
+    return test_connection()
+
+@app.get("/balance")
+def get_balance():
+    try:
+        exchange = get_exchange()
+        balance = exchange.fetch_balance()
+        usdt = balance['total'].get('USDT', 0)
+        btc = balance['total'].get('BTC', 0)
+        return {
+            "status": "ok",
+            "balance": {
+                "USDT": round(usdt, 2),
+                "BTC": round(btc, 8),
+            }
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
